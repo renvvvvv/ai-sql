@@ -2,6 +2,7 @@
   "name": "ai-sql-query-generator",
   "version": "1.0.0",
   "description": "AI-powered multi-table SQL query generator with natural language processing for Lark Base",
+  "author": "renvvvvv",
   "private": false,
   "license": "MIT",
   "keywords": ["sql", "ai", "lark-base", "multi-table", "query-generator", "natural-language", "chinese-support"],

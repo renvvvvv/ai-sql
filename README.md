@@ -195,10 +195,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 Email: <your-email@example.com>
+- 📧 Email: renvvvvv@example.com
 - 🐛 Issues: Create issues in your repository
 - 📖 Docs: Check the documentation files in the project
 
 ---
 
-**Built with ❤️ for efficient data querying and analysis**
+**Built with ❤️ by renvvvvv for efficient data querying and analysis**
