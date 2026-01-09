@@ -195,7 +195,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 Email: renvvvvv@example.com
+- 📧 Email: 2744689162@qq.com
 - 🐛 Issues: Create issues in your repository
 - 📖 Docs: Check the documentation files in the project
 
