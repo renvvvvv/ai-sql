@@ -231,14 +231,30 @@ export function transDisplayRecord(fields: IFieldMeta[], record: IRecord) {
     } else if (field.type === FieldType.Url && cell) {
       obj[field.id] = cell[0]?.link;
     } else {
-      obj[field.id] =
-        typeof cell === "object"
+      // 确保数值类型保持正确的数值类型
+      if (typeof cell === "number") {
+        // 数值类型直接保存
+        obj[field.id] = cell;
+      } else if (typeof cell === "string") {
+        // 字符串类型尝试转换为数值
+        const numValue = parseFloat(cell);
+        if (!isNaN(numValue)) {
+          // 转换成功，保存为数值类型
+          obj[field.id] = numValue;
+        } else {
+          // 转换失败，保存为原始字符串
+          obj[field.id] = cell;
+        }
+      } else {
+        // 其他类型按原有逻辑处理
+        obj[field.id] = typeof cell === "object"
           ? cell?.text ??
             cell
               ?.map?.((item: any) => item?.text ?? item?.name)
               .filter((item: any) => item)
               .join(",")
           : cell;
+      }
     }
     obj._raw_ = record.fields;
   });

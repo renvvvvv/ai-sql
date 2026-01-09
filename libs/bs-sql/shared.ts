@@ -78,30 +78,70 @@ export function replaceFieldNames(
       return;
     }
 
+    // 处理函数调用中的参数，如MIN(fld09uvSfe)
+    if (node.type === "FunctionCall") {
+      if (node.args && Array.isArray(node.args)) {
+        node.args.forEach((arg: any) => {
+          traverse(arg);
+        });
+      }
+    }
+
     // 处理字段名
     if (node.type === "Identifier") {
-      // console.log(node);
+      // 处理字段名到字段ID的映射
       if (node.value.includes(".")) {
         const [tableAlias, columnName] = node.value.split(".");
         const actualTable = tableAliasMap[tableAlias];
-        const newColumnName =
-          fieldReplacements[actualTable] &&
+        const newColumnName = 
+          fieldReplacements[actualTable] && 
           fieldReplacements[actualTable][columnName];
-        // console.log(JSON.stringify({ tableAlias, columnName, actualTable, newColumnName, node }));
         if (newColumnName) {
-          const tableMap =
+          const tableMap = 
             tableReplacements[extantName(tableAlias)] || tableAlias;
           node.value = `${tableMap}.${newColumnName}`;
         }
       } else {
+        // 检查是否是直接使用的字段ID
+        let fieldMatched = false;
+        
+        // 首先检查是否是字段ID直接映射
         Object.keys(fieldReplacements).some((table) => {
+          // 检查字段名到字段ID的映射
           const mapTable = tableReplacements[extantName(table)] || table;
           const newColumnName = fieldReplacements[table][node.value];
+          
           if (newColumnName) {
+            // 字段名映射到字段ID
             node.value = `${mapTable}.${newColumnName}`;
+            fieldMatched = true;
             return true;
           }
+          // 检查字段ID是否直接在字段映射中
+          else {
+            // 检查字段ID是否存在于任何表格的字段映射中
+            const tables = Object.keys(fieldReplacements);
+            for (const t of tables) {
+              const fieldsMapId = Object.keys(fieldReplacements[t]);
+              if (fieldsMapId.includes(node.value)) {
+                // 直接使用的字段ID，不需要替换
+                node.value = `${tableReplacements[extantName(t)] || t}.${node.value}`;
+                fieldMatched = true;
+                return true;
+              }
+            }
+          }
         });
+        
+        // 如果没有匹配的字段映射，尝试使用当前激活表格
+        if (!fieldMatched) {
+          // 获取第一个表格作为默认表格
+          const firstTable = Object.keys(fieldReplacements)[0];
+          if (firstTable) {
+            const mapTable = tableReplacements[extantName(firstTable)] || firstTable;
+            node.value = `${mapTable}.${node.value}`;
+          }
+        }
       }
     }
 

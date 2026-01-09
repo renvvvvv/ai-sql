@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/pnpm-lock.yaml
 
 # testing
 /coverage
@@ -11,6 +12,7 @@
 # next.js
 /.next/
 /out/
+/dist/
 
 # production
 /build
@@ -26,6 +28,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
 
 # vercel
@@ -33,3 +36,18 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+sqlbot-logs-*.json
+
+# Development files
+.replit
+.breakpoints
